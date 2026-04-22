@@ -73,6 +73,15 @@ return [
             'replace_placeholders' => true,
         ],
 
+        // CRUD audit log — written by TaskObserver + LogCrudOperations middleware
+        'crud' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/crud.log'),
+            'level' => 'info',
+            'days' => 30,
+            'replace_placeholders' => true,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
