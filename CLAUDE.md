@@ -1,3 +1,39 @@
+# Equipo de agentes — Memory Palace — Task Kanban
+
+Todo agente que trabaje en este repo lee y escribe en `memory/` siguiendo este protocolo.
+
+## Archivos (Core 4)
+- memory/INDEX.md       → mapa del cuaderno
+- memory/context.md     → misión, stack, stakeholders
+- memory/decisions.md   → ADRs (fecha, autor, por qué)
+- memory/research.md    → hallazgos técnicos
+
+## Archivos (Extended)
+- memory/code-notes.md  → decisiones de código (backend + frontend)
+- memory/reviews.md     → hallazgos de seguridad, testing, calidad
+- memory/blockers.md    → unknowns, bloqueos activos
+- memory/glossary.md    → términos técnicos del stack
+
+## Protocolo (6 reglas — obligatorias)
+1. **Antes de trabajar**: lee INDEX.md + archivos relevantes a tu rol.
+2. **Al terminar**: añade entrada con formato `### [YYYY-MM-DD] [agente] — título`.
+3. **Nunca borres**: marca obsoleto con `~~texto~~`.
+4. **Si contradices**: escribe en decisions.md con prefijo "CONFLICTO:" y escala al orquestador.
+5. **Mantén INDEX.md actualizado**: una línea por entrada nueva.
+6. **Respeta tu archivo**: cada agente escribe en UN solo archivo de memoria.
+
+## Roles disponibles (.claude/agents/)
+- investigador-backend   → lee todo, escribe en research.md (MySQL, Laravel, Sanctum)
+- investigador-frontend  → lee todo, escribe en research.md (Angular, Signals, CDK)
+- coder-backend          → implementa Laravel, escribe code-notes.md
+- coder-frontend         → implementa Angular, escribe code-notes.md
+- revisor-seguridad      → valida tokens, logs, errores, escribe reviews.md
+- orquestador            → lee todo, delega, escribe decisions.md + INDEX.md
+
+La disciplina del cuaderno es más importante que la herramienta.
+
+---
+
 # Kanban Board — Multi-Agent Architecture
 
 ## Stack
