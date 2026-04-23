@@ -40,3 +40,7 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Environment files with real config (use environment.example.ts as template)
+/enviroments/environment.ts
+/enviroments/environment.production.ts

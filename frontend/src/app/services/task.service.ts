@@ -2,11 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateTaskDto, Task, UpdateTaskDto } from '../models/task.model';
+import { environment } from '../../../enviroments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8000/api';
+  private readonly apiUrl = environment.apiUrl;
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}/tasks`);

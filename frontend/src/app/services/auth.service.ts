@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { environment } from '../../../enviroments/environment';
 
 interface AuthResponse {
   token: string;
@@ -17,9 +18,9 @@ interface AuthPayload {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly http    = inject(HttpClient);
-  private readonly apiUrl  = 'http://localhost:8000/api';
-  private readonly key     = 'kanban_token';
+  private readonly http   = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
+  private readonly key    = environment.storageKey;
 
   isLoggedIn = signal(!!localStorage.getItem(this.key));
 
