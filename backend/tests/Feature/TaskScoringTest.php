@@ -6,7 +6,9 @@ use App\Models\User;
 uses(Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('calculates priority score: complexity=5, urgency=10 yields exactly 8.0', function () {
+    $user = User::factory()->create();
     $task = Task::create([
+        'user_id'    => $user->id,
         'title'      => 'Score Test Task',
         'complexity' => 5,
         'urgency'    => 10,
@@ -18,7 +20,9 @@ it('calculates priority score: complexity=5, urgency=10 yields exactly 8.0', fun
 });
 
 it('calculates score for all edge combinations', function (int $complexity, int $urgency, float $expected) {
+    $user = User::factory()->create();
     $task = Task::create([
+        'user_id'    => $user->id,
         'title'      => "c={$complexity} u={$urgency}",
         'complexity' => $complexity,
         'urgency'    => $urgency,
@@ -34,7 +38,9 @@ it('calculates score for all edge combinations', function (int $complexity, int 
 ]);
 
 it('recalculates score when complexity or urgency is updated', function () {
+    $user = User::factory()->create();
     $task = Task::create([
+        'user_id'    => $user->id,
         'title'      => 'Recalc Test',
         'complexity' => 5,
         'urgency'    => 5,
@@ -49,7 +55,9 @@ it('recalculates score when complexity or urgency is updated', function () {
 });
 
 it('does NOT recalculate score when only status changes', function () {
+    $user = User::factory()->create();
     $task = Task::create([
+        'user_id'    => $user->id,
         'title'      => 'Status Only Test',
         'complexity' => 5,
         'urgency'    => 10,
@@ -87,9 +95,9 @@ it('allows authenticated users to create tasks via API', function () {
 it('returns tasks ordered by priority score descending', function () {
     $user = User::factory()->create();
 
-    Task::create(['title' => 'Low',    'complexity' => 1, 'urgency' => 1, 'status' => 'todo']);
-    Task::create(['title' => 'High',   'complexity' => 9, 'urgency' => 9, 'status' => 'todo']);
-    Task::create(['title' => 'Medium', 'complexity' => 5, 'urgency' => 5, 'status' => 'todo']);
+    Task::create(['user_id' => $user->id, 'title' => 'Low',    'complexity' => 1, 'urgency' => 1, 'status' => 'todo']);
+    Task::create(['user_id' => $user->id, 'title' => 'High',   'complexity' => 9, 'urgency' => 9, 'status' => 'todo']);
+    Task::create(['user_id' => $user->id, 'title' => 'Medium', 'complexity' => 5, 'urgency' => 5, 'status' => 'todo']);
 
     $response = $this->actingAs($user)->getJson('/api/tasks');
     $response->assertStatus(200);

@@ -34,7 +34,7 @@ interface Column {
 
       @if (error()) {
         <div class="error-banner">
-          Failed to load tasks. Verify your Bearer token in auth.interceptor.ts and that the backend is running on port 8000.
+          Failed to load tasks. Make sure you are logged in and the backend is running on port 8000.
         </div>
       }
 

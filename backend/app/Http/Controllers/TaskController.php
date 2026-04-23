@@ -8,9 +8,14 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Task::orderByDesc('priority_score')->get());
+        $tasks = $request->user()
+            ->tasks()
+            ->orderByDesc('priority_score')
+            ->get();
+
+        return response()->json($tasks);
     }
 
     public function store(Request $request): JsonResponse
@@ -23,16 +28,22 @@ class TaskController extends Controller
             'status'      => 'required|in:todo,in_progress,done',
         ]);
 
+        $validated['user_id'] = $request->user()->id;
+
         return response()->json(Task::create($validated), 201);
     }
 
-    public function show(Task $task): JsonResponse
+    public function show(Request $request, Task $task): JsonResponse
     {
+        abort_if($task->user_id !== $request->user()->id, 403);
+
         return response()->json($task);
     }
 
     public function update(Request $request, Task $task): JsonResponse
     {
+        abort_if($task->user_id !== $request->user()->id, 403);
+
         $validated = $request->validate([
             'title'       => 'sometimes|required|string|max:255',
             'description' => 'nullable|string|max:1000',
@@ -46,8 +57,10 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
-    public function destroy(Task $task): JsonResponse
+    public function destroy(Request $request, Task $task): JsonResponse
     {
+        abort_if($task->user_id !== $request->user()->id, 403);
+
         $task->delete();
 
         return response()->json(['message' => 'Task deleted successfully']);

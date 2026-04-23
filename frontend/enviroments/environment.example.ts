@@ -3,6 +3,4 @@
 export const environment = {
   production: false,
   apiUrl: 'http://YOUR_HOST:YOUR_PORT/api',
-  authToken: 'YOUR_BEARER_TOKEN',
-  storageKey: 'kanban_token',
 };
