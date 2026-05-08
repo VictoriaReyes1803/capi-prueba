@@ -52,12 +52,17 @@ export class AuthService {
 
   register(name: string, email: string, password: string): Observable<AuthResponse> {
     return this.http
-      .post<AuthResponse>(
-        `${this.apiUrl}/register`,
-        { name, email, password, password_confirmation: password },
-        { withCredentials: true },
-      )
-      .pipe(tap(() => this.isLoggedIn.set(true)));
+      .get(`${this.baseUrl}/sanctum/csrf-cookie`, { withCredentials: true })
+      .pipe(
+        switchMap(() =>
+          this.http.post<AuthResponse>(
+            `${this.apiUrl}/register`,
+            { name, email, password, password_confirmation: password },
+            { withCredentials: true },
+          ),
+        ),
+        tap(() => this.isLoggedIn.set(true)),
+      );
   }
 
   logout(): void {
